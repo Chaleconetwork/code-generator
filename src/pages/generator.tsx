@@ -5,29 +5,35 @@ import { useEffect, useState } from "react";
 
 export default function Generator() {
 
-    const [inputValue, setInputValue] = useState<iInputValues>();
+    const inputNames = ['solutionName', 'context', 'entity']
+
+    const [inputValue, setInputValue] = useState<iInputValues>({});
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, type, value, checked } = e.target;
-        setInputValue((prev: any) => ({
+        let sanitizedValue = value;
+
+        if (inputNames.includes(name) && type === 'text') {
+            sanitizedValue = value.replace(/\s/g, '');
+        }
+
+        setInputValue((prev: iInputValues) => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? checked : sanitizedValue,
         }));
     };
 
     const GenerateCode = async () => {
         // const response = await Fetch.post('https://anheu-code-generator.azurewebsites.net/GenerateCode', inputValue)
-        const aea = {
+        const bodyRequest = {
             solutionName: inputValue?.solutionName,
             contextName: inputValue?.context,
             isPKGuid: inputValue?.pkGuid,
             models: GenerateModels(inputValue?.entity, inputValue?.properties),
             isGenerateZip: true
         } as iBodyRequest
-        
-        // const response = await Fetch.download('http://localhost:5170/GenerateCode', aea, 'a')
-        const response = await Fetch.download('https://anheu-code-generator.azurewebsites.net/GenerateCode', aea, 'aea')
-        console.log(aea, response)
+
+        const response = await Fetch.download('https://anheu-code-generator.azurewebsites.net/GenerateCode', bodyRequest, 'codeGenerator')
         return response;
     }
 
@@ -37,22 +43,15 @@ export default function Generator() {
             name: entity,
             props: props
         } as iModels
-        
+
         models.push(model);
 
         return models;
     }
 
-    useEffect(() => {
-        // console.log(inputValue)
-    }, [inputValue])
-
     return (
-        <main className="h-screen pt-10 w-[50%] mx-auto font-semibold">
-            <section className="bg-white mx-auto py-4">
-                <h1 className="font-semibold text-2xl text-center">Genera tu código C#</h1>
-            </section>
-            <section className="bg-white flex flex-col gap-4 mx-auto p-6 rounded-md">
+        <main className="flex font-semibold">
+            <section className="bg-white flex flex-col grow gap-4 p-6 rounded-md">
                 <GenericInput
                     label="Nombre de la solución"
                     type="text"
@@ -63,28 +62,21 @@ export default function Generator() {
                     className="grow"
                 />
                 <GenericInput
-                    label="Nombre del contexto"
+                    label="Contexto"
                     type="text"
                     name="context"
                     value={inputValue?.context || ''}
                     onChange={handleInputChange}
-                    placeholder="Contexto..."
+                    placeholder="EjemploContext..."
                     className="grow"
                 />
                 <GenericInput
-                    label="Llave primaria tipo Guid?"
-                    type="checkbox"
-                    name="pkGuid"
-                    checked={inputValue?.pkGuid || false}
-                    onChange={handleInputChange}
-                />
-                <GenericInput
-                    label="Clase"
+                    label="Clase por defecto"
                     type="text"
                     name="entity"
                     value={inputValue?.entity || ''}
                     onChange={handleInputChange}
-                    placeholder="Usuario..."
+                    placeholder="EjemploUsuario..."
                     className="grow"
                 />
                 <GenericInput
@@ -93,10 +85,23 @@ export default function Generator() {
                     name="properties"
                     value={inputValue?.properties || ''}
                     onChange={handleInputChange}
-                    placeholder="Nombre string Edad int..."
+                    placeholder="Ejemplo1 string Ejemplo2 int..."
                     className="grow"
                 />
-                <button onClick={GenerateCode} className="font-semibold hover:bg-purple-500 text-lg text-white bg-purple-600 rounded-sm outline-none px-10 py-2 my-10">Generar código</button>
+                <GenericInput
+                    label="Llave primaria tipo Guid?"
+                    type="checkbox"
+                    name="pkGuid"
+                    checked={inputValue?.pkGuid || false}
+                    onChange={handleInputChange}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <button onClick={GenerateCode} className="font-semibold hover:bg-blue-500 text-lg text-white bg-blue-600 rounded-md outline-none py-1.5 my-10">Generar código</button>
+            </section>
+            <section className="grow bg-blue-600 text-white">
+                <div className="rounded-md flex justify-center items-end">
+                    <h2>AAAAAAAAAAAAAAAA</h2>
+                </div>
             </section>
         </main>
     )

@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
     return (
         <main className="bg-slate-100">
-            <header className="bg-purple-600 text-white flex justify-around pt-16">
+            <header className="bg-blue-600 text-white flex justify-around pt-16">
                 <div>
                     <h1 className="text-5xl font-bold">
                         Generar Código <br /> de manera más simple <br /> y rápida
@@ -15,7 +15,7 @@ export default function Home() {
                         en pocos segundos.
                     </p>
                     <Link href="/generator">
-                        <button className="hover:bg-white bg-slate-100 font-semibold text-lg text-purple-600 rounded-sm px-10 py-2 my-10">Empieza ahora</button>
+                        <button className="hover:bg-white bg-slate-100 font-semibold text-lg text-blue-600 rounded-sm px-10 py-2 my-10">Empieza ahora</button>
                     </Link>
                 </div>
                 <div>

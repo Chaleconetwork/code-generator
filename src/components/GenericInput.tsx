@@ -11,7 +11,7 @@ export const GenericInput: React.FC<iInputProps> = ({ label, type, name, value, 
                 checked={type === 'checkbox' ? checked : undefined} 
                 onChange={onChange}
                 placeholder={placeholder}
-                className={`w-[200px] bg-slate-100 p-1.5 rounded-md outline-none ${className}`}
+                className={`w-[200px] bg-slate-100 p-3 rounded-md outline-none ${className}`}
             />
         </div>
     );

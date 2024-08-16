@@ -36,9 +36,9 @@ export const Fetch = {
                 headers: headers,
                 body: body ? JSON.stringify(body) : undefined
             });
-
+            
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.statusText}`);
             }
 
             if (filename) {

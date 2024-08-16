@@ -5,9 +5,11 @@ import '@fontsource-variable/onest';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <>
+        <div className="flex flex-col h-screen">
             <Navbar />
-            <Component {...pageProps} />
-        </>
+            <main className="flex-grow">
+                <Component {...pageProps} />
+            </main>
+        </div>
     )
 }

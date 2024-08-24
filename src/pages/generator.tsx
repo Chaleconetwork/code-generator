@@ -9,7 +9,7 @@ export default function Generator() {
     const inputNames = ['solutionName', 'context', 'entity']
 
     const [inputValue, setInputValue] = useState<iInputValues>({});
-    const [models, setModels] = useState<iModels[]>([])
+    const [models] = useState<iModels[]>([])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, type, value, checked } = e.target;
@@ -48,8 +48,8 @@ export default function Generator() {
         } as iModels
 
         models.push(model);
-        setInputValue((prev) => ({...prev, entity: '', properties: ''}))
-        console.log(models)
+        setInputValue((prev) => ({ ...prev, entity: '', properties: '' }))
+
         return models;
     }
 
